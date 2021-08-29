@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { T_User_Controller } from '../controllers/t_users.controller';
+import { UserController } from '../controllers/t_users.controller';
 
-class t_user_Router {
+class UserRouter {
     router: Router;
-    controller: T_User_Controller;
+    controller: UserController;
 
-    constructor(){
+    constructor() {
         this.router = Router();
-        this.controller = new T_User_Controller();
+        this.controller = new UserController();
         this.routes();
     }
 
@@ -20,5 +20,5 @@ class t_user_Router {
     }
 }
 
-const tRouter = new t_user_Router();
+const tRouter = new UserRouter();
 export default tRouter.router;

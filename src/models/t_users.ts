@@ -1,7 +1,19 @@
-import { Schema, model } from "mongoose";
-//import { timeStamp } from "node:console";
+import { Schema, model, Document } from "mongoose";
+import Bcrypt from 'bcrypt';
 
-const t_user = new Schema({
+export interface IUser extends Document {
+    firstname: string;
+    secondname: string;
+    firstLastname: string;
+    secondLastname: string;
+    username: string;
+    password: string;
+    email: string;
+    encryptPassword(password: string): Promise<string>;
+    validatePassword(password: string): Promise<boolean>;
+};
+
+const User = new Schema<IUser>({
     firstname: { type: String, required: true },
     secondname: { type: String, required: false },
     firstLastname: { type: String, required: true },
@@ -12,7 +24,17 @@ const t_user = new Schema({
     createdDate: { type: Date, default: Date.now() },
     LastModifiedDate: { type: Date, default: Date.now() },
     Active: { type: Boolean, default: true }
-    //TimeStamp: { type: timeStamp, default: Date.now() }
+}, {
+    timestamps: true
 });
 
-export default model('t_users', t_user);
+User.methods.encryptPassword = async (password: string): Promise<string> => {
+    const salt = await Bcrypt.genSalt(10);
+    return Bcrypt.hash(password, salt);
+};
+
+User.methods.validatePassword = async function (password: string): Promise<boolean> {
+    return await Bcrypt.compare(password, this.password);
+};
+
+export default model<IUser>('t_users', User);

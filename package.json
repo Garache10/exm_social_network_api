@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tsc" : "tsc -w",
-    "dev" : "nodemon ./build/index.js",
-    "start" : "tsc && node ./build/index.js"
+    "tsc": "tsc -w",
+    "dev": "nodemon ./build/index.js",
+    "start": "tsc && node ./build/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -21,6 +22,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.10",
     "@types/dotenv": "^8.2.0",

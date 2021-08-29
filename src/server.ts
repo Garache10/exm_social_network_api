@@ -6,7 +6,9 @@ import Cors from 'cors';
 import 'dotenv/config';
 
 // Routes imports
-import tRouter from './routes/t_users.routes';
+import UserRouter from './routes/t_users.routes';
+import RolRouter from './routes/t_roles.routes';
+import PublicationRouter from './routes/t_publications.routes';
 
 // Class to run the server
 class Server {
@@ -36,8 +38,9 @@ class Server {
 
     // Routes of other controllers
     public routes(): void {
-        //const router: Express.Router = Express.Router();
-        this.app.use('/api/users', tRouter);
+        this.app.use('/api/users', UserRouter);
+        this.app.use('api/roles', RolRouter);
+        this.app.use('api/publications', PublicationRouter);
     }
 
     // Main Method
