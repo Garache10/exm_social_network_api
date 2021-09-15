@@ -7,7 +7,7 @@ const Publication = new Schema({
     text: { type: String, required: true },
     createdDate: { type: Date, default: Date.now() },
     lastModifiedDate: { type: Date, default: Date.now() },
-    images: { type: String, required: true },
+    images: { type: String, required: false },
     active: { type: Boolean, default: true }
 }, {
     timestamps: true
