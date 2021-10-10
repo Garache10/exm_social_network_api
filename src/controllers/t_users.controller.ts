@@ -29,6 +29,7 @@ class UserController {
 
     public async createUser(req: Request, res: Response): Promise<void> {
         const newUser = new User(req.body);
+        newUser.password = await newUser.encryptPassword(newUser.password);
         try {
             await newUser.save();
             res.json({ status: 200, newUser });
@@ -40,8 +41,6 @@ class UserController {
 
     public async updateUser(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
-        const Now = Date.now();
-        req.body.LastModifiedDate = Now;
         try {
             const user = await User.findByIdAndUpdate(id, req.body, { new: true });
             res.json({ message: 'user updated', user });
@@ -59,6 +58,24 @@ class UserController {
         } catch (error) {
             console.log("ERROR: " + error);
             res.json({ message: error });
+        }
+    }
+
+    public async loginUser(req: Request, res: Response): Promise<void> {
+        try {
+            const user = await User.findOne({ email: req.body.email });
+            if (user) {
+                const credentials = await user.validatePassword(req.body.password);
+                if (credentials) {
+                    res.status(200).json({ message: 'Welcome ' + user.username, user });
+                } else {
+                    res.status(400).json({ message: 'Invalid Password, try again!' });
+                }
+            } else {
+                res.status(400).json({ message: 'Invalid Credentials, try again!' });
+            }
+        } catch (error) {
+            res.status(400).json({ message: 'A problem occurred, try again!' });
         }
     }
 }
