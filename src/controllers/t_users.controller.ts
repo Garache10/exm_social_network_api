@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import User from "../models/t_users";
 
 class UserController {
@@ -67,7 +68,19 @@ class UserController {
             if (user) {
                 const credentials = await user.validatePassword(req.body.password);
                 if (credentials) {
-                    res.status(200).json({ message: 'Welcome ' + user.username, user });
+                    const Sessiontoken: string = jwt.sign({ _id: user._id }, process.env.SECRET_KEY || 'SECRET_KEY');
+                    res.status(200).json({ 
+                        message: 'Welcome ' + user.username, 
+                        userData: {
+                            username: user.username,
+                            firstname: user.firstname,
+                            secondname: user.secondname,
+                            firstLastname: user.firstLastname,
+                            secondLastname: user.secondLastname,
+                            email: user.email,
+                            _id: user._id
+                        }, 
+                        sessionToken: Sessiontoken});
                 } else {
                     res.status(400).json({ message: 'Invalid Password, try again!' });
                 }
