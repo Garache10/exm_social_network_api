@@ -1,4 +1,3 @@
-import { Console } from "console";
 import { Request, Response } from "express";
 import Comment from "../models/t_comments";
 

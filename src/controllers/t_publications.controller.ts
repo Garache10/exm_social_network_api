@@ -15,7 +15,7 @@ class PublicationController {
 
     public async getPublicationById(req: Request, res: Response): Promise<void> {
         try {
-            const publication = await Publication.findById(req.params.id);
+            const publication = await Publication.findById(req.params.id).populate('owner', 'firstname firstLastname username');
             if (publication == null) {
                 res.json({ status: 404, message: 'publication not found' });
             } else {
@@ -29,7 +29,7 @@ class PublicationController {
 
     public async getPublicationsByOwner(req: Request, res: Response): Promise<void> {
         try {
-            const publications = await Publication.find({ owner: req.params.owner });
+            const publications = await Publication.find({ owner: req.params.owner }).populate('owner', 'firstname firstLastname username');
             if (publications == null) {
                 res.json({ status: 404, message: 'this user not have publications' });
             } else {
