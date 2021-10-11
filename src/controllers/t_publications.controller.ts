@@ -45,7 +45,7 @@ class PublicationController {
         const newPublication = new Publication(req.body);
         try {
             await newPublication.save();
-            res.json({ status: 200, message: 'publication created' });
+            res.json({ status: 200, message: 'publication created', newPublication });
         } catch (error) {
             console.log("Error: " + error);
             res.json({ message: error });

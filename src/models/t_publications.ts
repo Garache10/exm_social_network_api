@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
+import User from './t_users';
 
 const Publication = new Schema({
-    owner: { type: String, required: true },
+    owner: { type: String, ref: User, required: true },
     title: { type: String, required: false },
     text: { type: String, required: true },
     images: { type: String, required: false },

@@ -9,6 +9,7 @@ import 'dotenv/config';
 import UserRouter from './routes/t_users.routes';
 import RolRouter from './routes/t_roles.routes';
 import PublicationRouter from './routes/t_publications.routes';
+import CommentRouter from './routes/t_comment.routes';
 
 // Class to run the server
 class Server {
@@ -41,6 +42,7 @@ class Server {
         this.app.use('/api/users', UserRouter);
         this.app.use('/api/roles', RolRouter);
         this.app.use('/api/publications', PublicationRouter);
+        this.app.use('/api/comments', CommentRouter);
     }
 
     // Main Method
