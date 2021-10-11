@@ -15,10 +15,10 @@ class PublicationRouter {
     routes () {
         this.router.get('/', this.controller.getPublications);
         this.router.get('/:id', this.controller.getPublicationById);
-        this.router.get('/:owner', this.controller.getPublicationsByOwner);
+        this.router.get('/owner/:owner', this.controller.getPublicationsByOwner);
         this.router.post('/', this.controller.createPublication);
         this.router.put('/:id', this.controller.updatePublication);
-        this.router.delete('/id', this.controller.deletePublication);
+        this.router.delete('/:id', this.controller.deletePublication);
     }
 }
 

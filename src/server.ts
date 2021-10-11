@@ -39,8 +39,8 @@ class Server {
     // Routes of other controllers
     public routes(): void {
         this.app.use('/api/users', UserRouter);
-        this.app.use('api/roles', RolRouter);
-        this.app.use('api/publications', PublicationRouter);
+        this.app.use('/api/roles', RolRouter);
+        this.app.use('/api/publications', PublicationRouter);
     }
 
     // Main Method

@@ -54,8 +54,6 @@ class PublicationController {
 
     public async updatePublication(req: Request, res: Response): Promise<void> {
         const { id } = req.params;
-        const Now = Date.now();
-        req.body.lastModifiedDate = Now;
         try {
             const publication = await Publication.findByIdAndUpdate(id, req.body, { new: true });
             res.json({ message: 'publication updated', publication });
