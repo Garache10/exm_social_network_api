@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from "../models/t_users";
 import Profile from '../models/t_profile';
+import TransactionLog from '../models/admin.models/t_logs';
 
 class UserController {
  
@@ -67,12 +68,31 @@ class UserController {
     }
 
     public async loginUser(req: Request, res: Response): Promise<void> {
+        const transaction = new TransactionLog({
+            process: 'API_loginUser',
+            jsonRequest: JSON.stringify(req.body)
+        }); //Create log object
+        
         try {
             const user = await User.findOne({ email: req.body.email });
             if (user) {
                 const credentials = await user.validatePassword(req.body.password);
                 if (credentials) {
                     const Sessiontoken: string = jwt.sign({ _id: user._id }, process.env.SECRET_KEY || 'SECRET_KEY');
+                    transaction.jsonResponse = JSON.stringify({
+                        message: 'Welcome ' + user.username, 
+                        userData: {
+                            username: user.username,
+                            firstname: user.firstname,
+                            secondname: user.secondname,
+                            firstLastname: user.firstLastname,
+                            secondLastname: user.secondLastname,
+                            email: user.email,
+                            _id: user._id
+                        }, 
+                        sessionToken: Sessiontoken});  // add json request to log object
+                    transaction.complete = true; // status of log object
+                    await transaction.save(); // save log
                     res.status(200).json({ 
                         message: 'Welcome ' + user.username, 
                         userData: {
@@ -84,7 +104,7 @@ class UserController {
                             email: user.email,
                             _id: user._id
                         }, 
-                        sessionToken: Sessiontoken});
+                        sessionToken: Sessiontoken});  // WS response
                 } else {
                     res.status(400).json({ message: 'Invalid Password, try again!' });
                 }
