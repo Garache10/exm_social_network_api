@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from "../models/t_users";
+import Profile from '../models/t_profile';
 
 class UserController {
  
@@ -33,6 +34,9 @@ class UserController {
         newUser.password = await newUser.encryptPassword(newUser.password);
         try {
             await newUser.save();
+            const newProfile = new Profile();
+            newProfile.user = newUser._id;
+            await newProfile.save();
             res.json({ status: 200, newUser });
         } catch (error) {
             console.log("ERROR: " + error);
