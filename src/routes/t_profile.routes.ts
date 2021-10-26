@@ -14,6 +14,7 @@ class ProfileRouter {
 
     routes() {
         this.router.get('/:user', this.controller.getProfileByUser);
+        this.router.get('/p/:id', this.controller.getProfileById);
         this.router.put('/:id', this.controller.updateProfile);
     }
 }

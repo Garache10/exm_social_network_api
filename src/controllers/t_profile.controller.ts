@@ -27,6 +27,22 @@ class ProfileController {
             res.json({ message: error });   
         }
     }
+
+    // Create a new public async function that look for the profile by _id
+    // and return the profile if it exists
+    public async getProfileById (req: Request, res: Response): Promise<void> {
+        try {
+            const profile = await Profile.findById(req.params.id).populate('user', 'username firstname secondname firstLastname secondLastname email');
+            if (profile == null) {
+                res.json({ status: 404, message: 'this profile doesnt exists' });
+            } else {
+                res.json(profile);
+            }
+        } catch (error) {
+            console.log("Error: " + error);
+            res.json({ message: error });
+        }
+    }
 }
 
 export { ProfileController };
